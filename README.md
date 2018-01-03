@@ -26,7 +26,7 @@ If you'd like to learn more about why this kind of tool is useful and how it wor
 
 Calculates the percentage of unused CSS of a webpage.
 
-
+![Coverage tab](/screenshots/calcUnusedCss.png)
 
 Notice in the example how you can use [Puppeteer](https://github.com/GoogleChrome/puppeteer) to mimic user interaction and trigger CSS rules.
 
@@ -71,6 +71,8 @@ DevTools Protocol API: [CSS.startRuleUsageTracking](https://chromedevtools.githu
 
 Takes a snapshot of a webpage's JS heap.  
 The raw snapshot data is available for further analysis. Just save `rawSnapshotData` to file, open up regular DevTools in your browser and right-click on the left hand side of the Memory panel, and choose "Load...".
+
+![Heap snapshot](/screenshots/takeHeapSnapshot.png)
 
 ```javascript
 const { takeHeapSnapshot } = require('headless-devtools');
