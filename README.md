@@ -18,8 +18,8 @@ If you'd like to learn more about why this kind of tool is useful and how it wor
 
 ## Features
 
-- [calcUnusedCss](#calcUnusedCss) - Calculates the percentage of unused CSS of a webpage after user interaction
-- [takeHeapSnapshot](#takeHeapSnapshot) - Takes a snapshot of a webpage's JS heap
+- [calcUnusedCss](#calcunusedcss) - Calculates the percentage of unused CSS of a webpage after user interaction
+- [takeHeapSnapshot](#takeheapsnapshot) - Takes a snapshot of a webpage's JS heap
 - Suggest more features by opening up an issue! 🎉
 
 ### calcUnusedCss
