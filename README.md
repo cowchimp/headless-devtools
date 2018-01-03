@@ -1,5 +1,6 @@
 ![node](https://img.shields.io/node/v/headless-devtools.svg)
 [![npm](https://img.shields.io/npm/v/headless-devtools.svg)](https://www.npmjs.com/package/headless-devtools)
+[![Travis](https://img.shields.io/travis/cowchimp/headless-devtools.svg)](https://travis-ci.org/cowchimp/headless-devtools)
 
 # headless-devtools
 
