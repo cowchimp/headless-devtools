@@ -1,105 +1,87 @@
 ![node](https://img.shields.io/node/v/headless-devtools.svg)
 [![npm](https://img.shields.io/npm/v/headless-devtools.svg)](https://www.npmjs.com/package/headless-devtools)
-[![Travis](https://img.shields.io/travis/cowchimp/headless-devtools.svg)](https://travis-ci.org/cowchimp/headless-devtools)
 
 # headless-devtools
 
-Lets you perform Chrome DevTools actions from code by leveraging [Headless Chrome](https://developers.google.com/web/updates/2017/04/headless-chrome)+[Puppeteer](https://github.com/GoogleChrome/puppeteer).
+Lets you use Chrome DevTools from code.
+
+```bash
+npm install headless-devtools
+```
 
 ## Motivation
 
-Chrome DevTools is great for getting valuable information about your app 🕵️‍♂️.  
-Using `headless-devtools` you can automate this process 🤖.  
-One use-case is to collect this data over time 📈, which can help you keep your app in good health 👩‍⚕️.
+Chrome DevTools is an indispensable tool for analyzing your Web application.  
+`headless-devtools` lets you automate the process of using DevTools.  
+This is useful for gathering data over time, writing tests, etc.  
 
-Some tools that provide similar metrics work by executing right after the page loads. This can lead to a skewed perception because these metrics don't mean much unless the user has interacted with the page (some CSS rules weren't applied, JS wasn't executed, etc.).  
-To fix this, `headless-devtools` lets you mimic the user interacting with the page before\during when data is collected.
+## Usage
 
-If you'd like to learn more about why this kind of tool is useful and how it works, check out [this](http://blog.cowchimp.com/monitoring-unused-css-by-unleashing-the-devtools-protocol/) blogpost.
+`headless-devtools` is designed to be used together with [Puppeteer](https://github.com/puppeteer/puppeteer).  
+See examples below 
 
-## Features
+## API
 
-- [calcUnusedCss](#calcunusedcss) - Calculates the percentage of unused CSS of a webpage after user interaction
-- [takeHeapSnapshot](#takeheapsnapshot) - Takes a snapshot of a webpage's JS heap
-- Suggest more features by opening up an issue! 🎉
+- [getPerformanceModel](#getperformancemodel) - Extracts the data model used the render a trace file in the DevTools Performance Tab
+- [getHeapSnapshot](#getheapsnapshot) - Extracts the data model used to render a Heap Snapshot in the Memory tab
+- Suggest more features by opening up an issue!
 
-### calcUnusedCss
+### getPerformanceModel
 
-Calculates the percentage of unused CSS of a webpage.
-
-![Coverage tab](/screenshots/calcUnusedCss.png)
-
-Notice in the example how you can use [Puppeteer](https://github.com/GoogleChrome/puppeteer) to mimic user interaction and trigger CSS rules.
+Extracts the data model used the render a trace file in the DevTools Performance Tab.  
+It's useful for calculating your animation's frame-rate programmatically.
 
 ```javascript
-const puppeteer = require('puppeteer');
-const { calcUnusedCss } = require('headless-devtools');
+const performanceModel = await getPerformanceModel(trace);
 
-(async function() {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+const frames = performanceModel.frames();
+console.log(`FPS: ${1000 / average(frames.map(x => x.duration))}`);
+console.log(`Slowest frame: ${max(frames.map(x => x.duration))} ms`);
 
-  const interactionCallback = async function(page) {
-    const url = 'https://unused-css-example-site-qijunirqpu.now.sh';
-    await page.goto(url);
-    await page.click('.tab.type2');
-    await page.click('.tab.type3');
-    await page.click('.tab.type4');
-  };
-  const unusedCSS = await calcUnusedCss({ page, interactionCallback });
-
-  console.log(`${unusedCSS}% of your CSS is unused`); // 15% of your CSS is unused
-
-  await browser.close();
-})();
+// FPS: 43.01310441575974
+// Slowest frame: 360.7630000114441 ms
 ```
 
-If you don't care about mimicking user interaction, use this simplified notation:
+**[See complete example](src/Performance/example.js)**
+
+### getHeapSnapshot
+
+Extracts the data model used to render a Heap Snapshot in the Memory tab.  
+It's useful for avoiding memory leaks.
 
 ```javascript
-const { calcUnusedCss } = require('headless-devtools');
+const heapSnapshot = await getHeapSnapshot(chunks);
 
-(async function() {
-  const unusedCSS = await calcUnusedCss('https://unused-css-example-site-qijunirqpu.now.sh');
+console.log(filesize(heapSnapshot.totalSize));
 
-  console.log(`${unusedCSS}% of your CSS is unused`); // 55% of your CSS is unused
-})();
-```
+// 1.59 MB
+``` 
 
-DevTools Protocol API: [CSS.startRuleUsageTracking](https://chromedevtools.github.io/devtools-protocol/tot/CSS/#method-startRuleUsageTracking)
+**[See complete example](src/Memory/example.js)**
 
-### takeHeapSnapshot
+## High Level Design
 
-Takes a snapshot of a webpage's JS heap.  
-The raw snapshot data is available for further analysis. Just save `rawSnapshotData` to file, open up regular DevTools in your browser and right-click on the left hand side of the Memory panel, and choose "Load...".
+As the Readme for the DevTools codebase states:
 
-![Heap snapshot](/screenshots/takeHeapSnapshot.png)
+> DevTools frontend is also available on NPM as the `chrome-devtools-frontend` package. It's not currently available via CJS or ES2015 modules, so consuming this package in other tools may require some effort.
 
-```javascript
-const { takeHeapSnapshot } = require('headless-devtools');
-const prettyBytes = require('pretty-bytes');
-const fs = require('fs');
+`headless-devtools` does a bunch of monkey patching in order to make the [DevTools frontend code](https://github.com/ChromeDevTools/devtools-frontend) run smoothly in Node.js.
 
-const heapSnapshot = await takeHeapSnapshot('https://google.com');
+## Changelog
 
-console.log(prettyBytes(heapSnapshot.totalSize)); // 8.96 MB
+#### 2.0.0
 
-fs.writeFileSync('homepage.heapsnapshot', rawSnapshotData.rawSnapshotData, 'utf8');
-```
-
-DevTools Protocol API: [HeapProfiler.takeHeapSnapshot](https://chromedevtools.github.io/devtools-protocol/tot/HeapProfiler/#method-takeHeapSnapshot)
-
-## Prerequisites
-
-`headless-devtools` requires Node.js 7.6 or greater because it relies on async\await.
+* Remove `calcUnusedCss`. CSS & JS Coverage info is now available in Puppeteer ([more info](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#class-coverage)).
+* Remove Puppeteer as a dependency.
 
 ## Running tests
 
 Run tests with `npm test`
 
-## Prior art
+## Related projects
 
-* Paul Irish's [automated-chrome-profiling](https://github.com/paulirish/automated-chrome-profiling)
+* Paul Irish's [automated-chrome-profiling](https://github.com/paulirish/automated-chrome-profiling) and [devtools-timeline-model](https://github.com/paulirish/devtools-timeline-model)
+* Lighthouse [tracehouse](https://github.com/GoogleChrome/lighthouse/tree/master/lighthouse-core/test/lib/tracehouse)
 
 ## License
 
