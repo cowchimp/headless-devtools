@@ -1,2 +1,2 @@
-exports.calcUnusedCss = require('./calcUnusedCss');
-exports.takeHeapSnapshot = require('./takeHeapSnapshot');
+exports.getPerformanceModel = require('./Performance/getPerformanceModel').getPerformanceModel;
+exports.getHeapSnapshot = require('./Memory/getHeapSnapshot').getHeapSnapshot;

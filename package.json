@@ -1,26 +1,33 @@
 {
   "name": "headless-devtools",
-  "description": "Lets you perform Chrome DevTools actions from code by leveraging Headless Chrome+Puppeteer",
-  "version": "0.0.2",
-  "main": "./src/index.js",
+  "description": "Lets you use Chrome DevTools from code",
+  "version": "2.0.0",
   "author": {
     "name": "cowchimp",
     "url": "http://blog.cowchimp.com"
   },
   "repository": "cowchimp/headless-devtools",
+  "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src",
+    "prepublishOnly": "npm run lint && npm run test"
   },
   "dependencies": {
-    "chrome-devtools-frontend": "1.0.588237",
-    "puppeteer": "^1.7.0"
-  },
-  "engines": {
-    "node": ">=7.6.0"
+    "chrome-devtools-frontend": "1.0.699835"
   },
   "devDependencies": {
-    "jest": "23.5.0",
-    "pretty-bytes": "^5.1.0"
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "filesize": "^6.1.0",
+    "fs-extra": "^9.0.0",
+    "jest": "^25.1.0",
+    "prettier": "1.19.1",
+    "puppeteer": "2.1.1"
+  },
+  "engines": {
+    "node": ">=10"
   },
   "license": "MIT"
 }
