@@ -3,11 +3,8 @@ require('./shell');
 
 global.Multimap = require('./Multimap').Multimap;
 
-const common = {};
-global.Common = common;
 require('chrome-devtools-frontend/front_end/common/Object.js');
 require('chrome-devtools-frontend/front_end/common/SegmentedRange.js');
-common.console = console;
 
 const bindings = {};
 global.Bindings = bindings;
@@ -17,10 +14,6 @@ const sdk = {};
 global.SDK = sdk;
 require('chrome-devtools-frontend/front_end/sdk/TracingModel.js');
 require('chrome-devtools-frontend/front_end/sdk/TargetManager.js');
-
-const textUtils = {};
-global.TextUtils = textUtils;
-require('chrome-devtools-frontend/front_end/text_utils/TextUtils.js');
 
 const timelineModel = {};
 global.TimelineModel = timelineModel;

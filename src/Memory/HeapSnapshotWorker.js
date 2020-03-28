@@ -4,11 +4,7 @@ const self = global;
 
 self.HeapSnapshotWorker = {};
 self.HeapSnapshotModel = HeapSnapshotModel;
-self.Common = { UIString: x => x, serializeUIString: x => x };
 self.ls = () => {};
-
-self.TextUtils = { TextUtils: {} };
-require('chrome-devtools-frontend/front_end/text_utils/TextUtils');
 
 const runtime = { queryParam: () => false };
 self.Runtime = runtime;

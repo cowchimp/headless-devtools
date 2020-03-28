@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const { getPerformanceModel } = require('./getPerformanceModel');
+const { getPerformanceModel } = require('../index');
 
 init();
 

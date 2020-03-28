@@ -93,21 +93,6 @@ Object.defineProperty(Array.prototype, 'upperBound', {
     return r;
   },
 });
-Object.defineProperty(Uint32Array.prototype, 'lowerBound', {
-  value: Array.prototype.lowerBound,
-});
-Object.defineProperty(Uint32Array.prototype, 'upperBound', {
-  value: Array.prototype.upperBound,
-});
-Object.defineProperty(Int32Array.prototype, 'lowerBound', {
-  value: Array.prototype.lowerBound,
-});
-Object.defineProperty(Int32Array.prototype, 'upperBound', {
-  value: Array.prototype.upperBound,
-});
-Object.defineProperty(Float64Array.prototype, 'lowerBound', {
-  value: Array.prototype.lowerBound,
-});
 
 (function() {
   function mergeOrIntersect(array1, array2, comparator, mergeNotIntersect) {

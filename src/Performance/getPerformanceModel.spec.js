@@ -1,4 +1,4 @@
-const { getPerformanceModel } = require('./getPerformanceModel');
+const { getPerformanceModel } = require('../index');
 const trace = require('./fixtures/trace.json');
 
 test('getPerformanceModel', async () => {

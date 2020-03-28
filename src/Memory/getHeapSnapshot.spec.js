@@ -1,4 +1,4 @@
-const { getHeapSnapshot } = require('./getHeapSnapshot');
+const { getHeapSnapshot } = require('../index');
 const { getChunks } = require('./fixtures/getChunks');
 
 test('returns a JS heap snapshot with total size', async function() {

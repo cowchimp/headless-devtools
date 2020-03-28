@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const filesize = require('filesize');
 const fs = require('fs').promises;
-const { getHeapSnapshot } = require('./getHeapSnapshot');
+const { getHeapSnapshot } = require('../index');
 
 init();
 
