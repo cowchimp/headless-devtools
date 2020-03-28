@@ -71,6 +71,7 @@ As the Readme for the DevTools codebase states:
 
 #### 2.0.0
 
+* Add `getPerformanceModel`.
 * Remove `calcUnusedCss`. CSS & JS Coverage info is now available in Puppeteer ([more info](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#class-coverage)).
 * Remove Puppeteer as a dependency.
 
